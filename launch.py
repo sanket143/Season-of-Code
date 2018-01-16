@@ -3,8 +3,6 @@ import re
 import config
 from bs4 import BeautifulSoup as bs
 import requests
-import ast
-import string
 import tkinter as tk
 info = ""
 def start():
