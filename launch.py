@@ -4,28 +4,36 @@ import config
 from bs4 import BeautifulSoup as bs
 import requests
 import tkinter as tk
+import ast
+from Tkinter import *
 info = ""
 def start():
 	global info
+	track = 0
 	repos = open("repo.json","r")
 	JSONdata = ast.literal_eval(repos.read())
 	repos.close()
-
+	progress = 0;
 	for obj in JSONdata:
+		track+=1
 		link = "https://github.com/"+obj["mentor"]+"/"+obj["project"]+"/issues?q=is%3Apr+is%3Aclosed"
 		r = requests.get(link)
 		soup = bs(r.content,"html.parser")
 		contributions = soup.find_all("div",{"class":"float-left col-9 p-2 lh-condensed"})
-		print ("Mentor:",obj["mentor"],"\t",obj["project"])
+		if track is len(JSONdata):
+			progress = 100;
+		print(str(progress)+"%..........")
 		for cont in contributions:
 			cont = re.sub(r'\s+'," ",str(cont))
 			cont = (re.sub(r'<(.*?)>',"",str(cont)))
 			if obj["mentor"] not in str(cont):
 				info = info + str(cont) + "\n"
 		content.config(text=str(info))
+		progress += 100/len(JSONdata)
 		info += "\n"
 
 window = tk.Tk()
+scroll = tk.Scrollbar(window)
 
 window.title("Season of Code (Evaluator)")
 
