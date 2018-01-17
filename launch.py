@@ -31,10 +31,11 @@ def start():
 		for cont in contributions:
 			cont = re.sub(r'\s+'," ",str(cont))
 			cont = re.sub(r'<(.*?)>',"",str(cont))
+			content.config(text=str(info))
 			if obj["mentor"] not in str(cont):
 				info = info + str(cont) + "\n"
-		content.config(text=str(info))
-		progress += 100/len(JSONdata)
+		
+		progress += float(100/len(JSONdata))
 		info += "\n"
 
 window = tk.Tk()
